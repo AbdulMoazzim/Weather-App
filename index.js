@@ -12,9 +12,10 @@ const weather = (city)=> {
 	api1.then((response)=> {
 		return response.json()
 	}).then((response)=> {
-		document.querySelector('#cityName').innerHTML = city
-
+		
+		
 		document.querySelector('#temp').innerHTML = ((response.main.temp-273).toFixed(2))+ ` &deg;C`
+		document.querySelector('#cityName').innerHTML = city
 		document.querySelector('#feels_like').innerHTML = `Feels like ${(response.main.feels_like-273).toFixed(2)}&deg;C`
 		document.querySelector('#humidity').innerHTML = `Humidity : ${response.main.humidity}%`
 		document.querySelector('#pressure').innerHTML = `Pressure : ${response.main.pressure} Pascal`
@@ -29,7 +30,8 @@ const weather = (city)=> {
 		document.querySelector('#sunset').innerHTML = `Sunset : ${response.sys.sunset}`
 		document.querySelector('#speed').innerHTML = `Wind Speed : ${response.wind.speed}miles/hr`
 		document.querySelector('#direction').innerHTML = `Wind Direction : ${response.wind.deg}&deg`
-		return response
+	}).catch((error)=>{
+		alert('You should give valid name of city')
 	})
 }
 document.querySelector('#submit').addEventListener('click',(e)=> {
@@ -47,7 +49,6 @@ weather('Karachi')
 
 const otherWeather = async()=> {
 	let cities = ['Shanghai','Delhi','Seattle','London','Moscow','Paris','Sydney']
-	console.log(cities.length)
 	for (let i = 0; i < cities.length; i++) {
 		const url2 = 'https://weather-api138.p.rapidapi.com/weather?city_name=' + cities[i];
 		const options2 = {
@@ -62,7 +63,6 @@ const otherWeather = async()=> {
 		await api2.then((response)=> {
 			return response.json()
 		}).then((response)=> {
-			console.log(response)
 			document.querySelector('#W'+(i+1)).innerHTML = response.weather[0].description
 			document.querySelector('#T'+(i+1)).innerHTML = ((response.main.temp-273).toFixed(2))+ ` &deg;C`
 			document.querySelector('#P'+(i+1)).innerHTML = `Pressure : ${response.main.pressure} Pascal`
